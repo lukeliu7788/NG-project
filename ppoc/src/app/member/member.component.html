@@ -1,0 +1,152 @@
+<div class="grid">
+	<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+		<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+		<input #gb type="text" pInputText size="50" placeholder="Global Filter">
+  </div>
+
+  <div class="filter">
+    <p-multiSelect [options]="columnOptions" [(ngModel)]="memberCols"></p-multiSelect>
+  </div>
+
+  <p-dataTable [value]="members" selectionMode="single" [(selection)]="selectedMember" datakey="id" [rows]="10" [responsive]="true" [paginator]="true" [globalFilter]="gb" #dt [scrollable]="true" unfrozenWidth="100%" scrollWidth="100%"
+  [rowsPerPageOptions]="[5,10,20]"  resizableColumns="true" columnResizeMode="expand">
+    <p-header>List of Members</p-header>
+    <p-column *ngFor="let col of memberCols" field="{{col.field}}" header="{{col.header}}"  [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <!-- <p-column field="id" header="id" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="suffix" header="suffix" [filter]="true" filterPlaceholder="Search" [sortable]="true"[style]="{'width':'160px'}"></p-column>
+    <p-column field="firstName" header="First Name" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="middleName" header="Middle Name" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="lastName" header="Last Name" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}" ></p-column>
+    <p-column field="dob" header="DOB" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="ssn" header="ssn" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="medicaidNumber" header="Medicaid Number" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="groupNumber" header="Group Number" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column>
+    <p-column field="groupName" header="Group Name" [filter]="true" filterPlaceholder="Search" [sortable]="true" [style]="{'width':'160px'}"></p-column> -->
+    <p-column [style]="{'width':'160px'}">
+      <ng-template pTemplate="header">
+        Edit
+      </ng-template>
+      <ng-template pTemplate="body">
+        <div class="cell edit"><a href="javscript:void(0)" (click)="showDetail()"><i class="fa fa-search"></i></a></div>
+      </ng-template>
+    </p-column>
+    <p-footer>
+      <div class="ui-helper-clearfix" style="width:100%">
+        <button type="button" pButton icon="fa-plus" style="float:left" (click)="showDialogToAdd()" label="Add"></button>
+        <button type="button" pButton icon="fa-file-o" iconPos="left" label="Export Data" (click)="dt.exportCSV()" style="float:right"></button>
+      </div>
+    </p-footer>
+    
+    <!-- <p-column *ngFor="let col of memberCols" field="{{col.field}}" header="{{col.field}}"  [filter]="true" filterPlaceholder="Search" [sortable]="true">
+      <ng-template *ngIf="!col.operate" pTemplate="header">
+          {{col.header}}
+      </ng-template>
+      <ng-template *ngIf="!col.operate" pTemplate="body">
+          <div class="cell">{{col.field}}</div>
+      </ng-template>
+      <ng-template *ngIf="col.operate" pTemplate="header">
+          Edit
+      </ng-template>
+      <ng-template *ngIf="col.operate" pTemplate="body">
+          <div class="cell edit"><a href="javscript:void(0)" (click)="showDetail()"><i class="fa fa-search"></i></a></div>
+      </ng-template>
+    </p-column> -->
+  </p-dataTable>
+  
+  <p-dialog header="Create Member" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="newMember">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="suffix">Suffix</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="suffix" [(ngModel)]="newMember.suffix" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="firstName">First Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="firstName" [(ngModel)]="newMember.firstName" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="lastName">Last Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="lastName" [(ngModel)]="newMember.lastName" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="middleName">Middle Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="middleName" [(ngModel)]="newMember.middleName" /></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="dob">DOB</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="dob" [(ngModel)]="newMember.dob" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="ssn">SSN</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="ssn" [(ngModel)]="newMember.ssn" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="medicaidNumber">Medicaid Number</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="medicaidNumber" [(ngModel)]="newMember.medicaidNumber" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="groupNumber">Group Number</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="groupNumber" [(ngModel)]="newMember.groupNumber" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="groupName">Group Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="groupName" [(ngModel)]="newMember.groupName" /></div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <!-- <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button> -->
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Member Detail" [(visible)]="displayEdit" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedMember">
+        <input type="hidden" pInputText id="id" [(ngModel)]="selectedMember.id" value="{{selectedMember?selectedMember.id:'none'}}"/>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="suffix">Suffix</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="suffix" [(ngModel)]="selectedMember.suffix" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="firstName">First Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="firstName" [(ngModel)]="selectedMember.firstName" value="{{selectedMember?selectedMember.firstName:'none'}}" /></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="lastName">Last Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="lastName" [(ngModel)]="selectedMember.lastName" value="{{selectedMember?selectedMember.lastName:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="middleName">Middle Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="middleName" [(ngModel)]="selectedMember.middleName" value="{{selectedMember?selectedMember.middleName:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="dob">DOB</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="dob" [(ngModel)]="selectedMember.dob" value="{{selectedMember?selectedMember.dob:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="ssn">SSN</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="ssn" [(ngModel)]="selectedMember.ssn" value="{{selectedMember?selectedMember.ssn:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="medicaidNumber">Medicaid Number</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="medicaidNumber" [(ngModel)]="selectedMember.medicaidNumber" value="{{selectedMember?selectedMember.medicaidNumber:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="groupNumber">Group Number</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="groupNumber" [(ngModel)]="selectedMember.groupNumber" value="{{selectedMember?selectedMember.groupNumber:'none'}}"/></div>
+        </div>
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4"><label for="groupName">Group Name</label></div>
+          <div class="ui-grid-col-8"><input pInputText id="groupName" [(ngModel)]="selectedMember.groupName" value="{{selectedMember?selectedMember.groupName:'none'}}"/></div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button routerLink="" routerLinkActive="active" type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="fa-check" (click)="saveEdit()" label="Save"></button>
+        </div>
+    </p-footer>
+  </p-dialog>
+
+<p> value="{{selectedMember?selectedMember.id:'none'}}"</p>
+</div>

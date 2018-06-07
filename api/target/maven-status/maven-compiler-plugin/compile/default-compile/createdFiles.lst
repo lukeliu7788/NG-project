@@ -1,0 +1,4 @@
+com\javasampleapproach\jpamysqlangular4\model\Customer.class
+com\javasampleapproach\jpamysqlangular4\repo\CustomerRepository.class
+com\javasampleapproach\jpamysqlangular4\controller\CustomerController.class
+com\javasampleapproach\jpamysqlangular4\SpringJpaMySqlAngular4Application.class

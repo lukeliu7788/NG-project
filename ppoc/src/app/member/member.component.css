@@ -1,0 +1,13 @@
+.grid {
+    width: calc(100vw - 200px - 30px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 50px;
+}
+.filter {
+   text-align: right;
+}
+
+.longCol{
+    width: 200px;
+}
